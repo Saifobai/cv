@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Saif Al-Obaidi — Full-Stack & AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+:root{
+  --page:#FAFAF9;--ink:#0F172A;--ink-2:#334155;--ink-3:#64748B;--ink-4:#94A3B8;
+  --accent:#2563EB;--accent-lt:#EFF6FF;--accent-mid:#BFDBFE;
+  --sidebar-bg:#F1F5F9;--rule:#E2E8F0;--rule-dark:#CBD5E1;
+  --green:#059669;--green-lt:#ECFDF5;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-mono:'DM Mono','Fira Code',monospace;
+}
+
+/* ── Lang toggle UI (screen only) ── */
+.lang-bar{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;padding:10px 0 6px;
+  background:#1E293B;
+  position:sticky;top:0;z-index:100;
+}
+.lang-bar-label{font-family:var(--font-mono);font-size:8pt;color:#94A3B8;letter-spacing:0.08em}
+.toggle-wrap{display:flex;background:#0F172A;border-radius:6px;overflow:hidden;border:1px solid #334155}
+.lang-btn{
+  font-family:var(--font-mono);font-size:8pt;font-weight:500;
+  padding:5px 16px;cursor:pointer;border:none;background:transparent;
+  color:#64748B;transition:all 0.18s ease;letter-spacing:0.05em;
+}
+.lang-btn.active{background:var(--accent);color:#fff}
+.lang-btn:hover:not(.active){color:#CBD5E1;background:#1E293B}
+.print-note{font-family:var(--font-mono);font-size:7.5pt;color:#475569}
+
+/* ── Page ── */
+body{font-family:var(--font-body);font-size:9pt;line-height:1.55;color:var(--ink);background:#e8eaf0}
+.page{width:210mm;min-height:297mm;background:var(--page);margin:16px auto 40px;box-shadow:0 4px 40px rgba(0,0,0,0.14);display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+
+/* ── Header ── */
+.header{display:grid;grid-template-columns:1fr auto;align-items:end;gap:16px;padding:22px 22px 18px 0;background:var(--ink);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;bottom:0;width:6px;background:var(--accent)}
+.header::after{content:'';position:absolute;bottom:-1px;right:-1px;width:60px;height:60px;background:var(--accent);clip-path:polygon(100% 0,100% 100%,0 100%);opacity:0.18}
+.header-left{padding-left:24px}
+.header-name{font-size:26pt;font-weight:600;letter-spacing:-0.5px;color:#fff;line-height:1.05}
+.header-role{font-size:10pt;font-weight:400;color:var(--accent-mid);margin-top:5px;letter-spacing:0.01em}
+.header-tagline{font-size:8.2pt;color:#94A3B8;margin-top:3px;font-style:italic}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-right:4px;padding-bottom:2px}
+.contact-item{display:flex;align-items:center;gap:6px;font-size:7.8pt;color:#94A3B8}
+.contact-item a{color:#BFDBFE;text-decoration:none}
+.contact-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+/* ── Body grid ── */
+.body-grid{display:grid;grid-template-columns:62mm 1fr}
+
+/* ── Sidebar ── */
+.sidebar{background:var(--sidebar-bg);padding:18px 14px;border-right:0.75px solid var(--rule-dark)}
+.sb-section{margin-bottom:18px}
+.sb-section:last-child{margin-bottom:0}
+.sb-head{font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);border-bottom:0.75px solid var(--accent-mid);padding-bottom:3px;margin-bottom:9px}
+.skill-group{margin-bottom:9px}
+.skill-group:last-child{margin-bottom:0}
+.skill-group-name{font-size:7.4pt;font-weight:600;color:var(--ink-2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em}
+.skill-tags{display:flex;flex-wrap:wrap;gap:3px}
+.tag{font-family:var(--font-mono);font-size:6.8pt;padding:2px 6px;border-radius:3px;background:#fff;color:var(--ink-2);border:0.5px solid var(--rule-dark);white-space:nowrap}
+.tag.core{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:500}
+.tag.ai{background:#1E3A5F;color:#BFDBFE;border-color:#1E3A5F}
+.edu-item{margin-bottom:10px}
+.edu-item:last-child{margin-bottom:0}
+.edu-degree{font-size:8.2pt;font-weight:600;color:var(--ink);line-height:1.3}
+.edu-school{font-size:7.4pt;color:var(--ink-3);margin-top:1px}
+.edu-date{font-family:var(--font-mono);font-size:7pt;color:var(--ink-4);margin-top:2px}
+.edu-note{font-size:7pt;color:var(--ink-4);margin-top:2px;font-style:italic}
+.lang-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.lang-name{font-size:8.2pt;font-weight:500;color:var(--ink)}
+.lang-bar-wrap{display:flex;align-items:center;gap:5px}
+.lang-level{font-family:var(--font-mono);font-size:7pt;color:var(--ink-4)}
+.lang-dots{display:flex;gap:2px}
+.dot{width:6px;height:6px;border-radius:50%}
+.dot.filled{background:var(--accent)}
+.dot.empty{background:var(--rule-dark)}
+.avail-item{display:flex;align-items:flex-start;gap:6px;font-size:7.8pt;color:var(--ink-3);margin-bottom:5px;line-height:1.4}
+.avail-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:3px}
+
+/* ── Main ── */
+.main{padding:18px 20px 18px 18px}
+.section{margin-bottom:16px}
+.section:last-child{margin-bottom:0}
+.section-head{display:flex;align-items:center;gap:8px;font-size:7pt;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px}
+.section-head::after{content:'';flex:1;height:0.75px;background:var(--rule)}
+.summary-text{font-size:8.8pt;color:var(--ink-2);line-height:1.65}
+.summary-text strong{font-weight:600;color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.stat{background:var(--accent-lt);border:0.5px solid var(--accent-mid);border-radius:4px;padding:6px 8px}
+.stat-num{font-family:var(--font-mono);font-size:13pt;font-weight:500;color:var(--accent);line-height:1}
+.stat-label{font-size:7pt;color:var(--ink-3);margin-top:2px;line-height:1.35}
+.job{margin-bottom:13px}
+.job:last-child{margin-bottom:0}
+.job-header{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:8px;margin-bottom:1px}
+.job-title{font-size:9.5pt;font-weight:600;color:var(--ink)}
+.job-date{font-family:var(--font-mono);font-size:7.4pt;color:var(--ink-4);white-space:nowrap}
+.job-meta{font-size:8pt;color:var(--ink-3);margin-bottom:5px}
+.job-meta strong{color:var(--ink-2);font-weight:500}
+.current-badge{font-family:var(--font-mono);font-size:6.8pt;padding:1px 5px;border-radius:3px;background:var(--green-lt);color:var(--green);border:0.5px solid #A7F3D0;margin-left:5px;vertical-align:middle}
+.bullets{padding-left:11px}
+.bullets li{font-size:8.4pt;color:var(--ink-2);line-height:1.55;margin-bottom:3px;padding-left:1px}
+.bullets li::marker{color:var(--accent);font-size:9pt}
+.metric{font-weight:600;color:var(--ink)}
+.gap-note{font-size:7.4pt;color:var(--ink-4);font-style:italic;margin-top:4px;padding-left:11px}
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.project{background:var(--page);border:0.75px solid var(--rule-dark);border-radius:4px;padding:8px 10px}
+.project-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:2px}
+.project-name{font-size:8.5pt;font-weight:600;color:var(--ink);line-height:1.25}
+.project-link{font-family:var(--font-mono);font-size:7pt;color:var(--accent);text-decoration:none;white-space:nowrap;flex-shrink:0;padding-top:1px}
+.project-stack{font-family:var(--font-mono);font-size:7pt;color:var(--accent);margin-bottom:4px;font-weight:500}
+.project-desc{font-size:7.8pt;color:var(--ink-3);line-height:1.5}
+.project-highlight{font-weight:600;color:var(--ink-2)}
+
+/* ── Print ── */
+@media print{
+  .lang-bar{display:none}
+  body{background:white}
+  .page{margin:0;box-shadow:none;width:100%}
+  @page{size:A4;margin:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LANGUAGE TOGGLE BAR ══ -->
+<div class="lang-bar">
+  <span class="lang-bar-label">LANGUAGE / SPRACHE</span>
+  <div class="toggle-wrap">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
+    <button class="lang-btn" id="btn-de" onclick="setLang('de')">🇩🇪 Deutsch</button>
+  </div>
+  <span class="print-note">Ctrl+P to save as PDF</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE
+══════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-name">Saif Al-Obaidi</div>
+      <div class="header-role">Full-Stack Engineer &nbsp;·&nbsp; React · Node.js · AI Integration</div>
+      <div class="header-tagline" data-en="Building production web systems and LLM-powered products · Hannover, Germany"
+                                  data-de="Entwicklung produktionsreifer Websysteme und KI-gestützter Produkte · Hannover, Deutschland">
+        Building production web systems and LLM-powered products · Hannover, Germany
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="contact-item"><div class="contact-dot"></div><span>+49 176 42277809</span></div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="mailto:saifobaidi.s22@gmail.com">saifobaidi.s22@gmail.com</a></div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="https://linkedin.com/in/saif-alobaidi-1aa00b210">linkedin.com/in/saif-alobaidi</a></div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="https://myportfolio-eta-flame.vercel.app">myportfolio-eta-flame.vercel.app</a></div>
+      <div class="contact-item"><div class="contact-dot"></div><a href="https://github.com/saif-obaidi">github.com/saif-obaidi</a></div>
+    </div>
+  </header>
+
+  <!-- BODY GRID -->
+  <div class="body-grid">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar">
+
+      <!-- Skills -->
+      <div class="sb-section">
+        <div class="sb-head" data-en="Technical Skills" data-de="Technische Kenntnisse">Technical Skills</div>
+
+        <div class="skill-group">
+          <div class="skill-group-name" data-en="Frontend" data-de="Frontend">Frontend</div>
+          <div class="skill-tags">
+            <span class="tag core">React</span><span class="tag core">Next.js</span><span class="tag core">TypeScript</span>
+            <span class="tag">TailwindCSS</span><span class="tag">Redux</span><span class="tag">REST API</span>
+            <span class="tag">Responsive Design</span><span class="tag">Accessibility</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-name" data-en="Backend" data-de="Backend">Backend</div>
+          <div class="skill-tags">
+            <span class="tag core">Node.js</span><span class="tag core">Express.js</span><span class="tag core">REST API Design</span>
+            <span class="tag">FastAPI</span><span class="tag">MongoDB</span><span class="tag">PostgreSQL</span>
+            <span class="tag">JWT Auth</span><span class="tag">Microservices</span><span class="tag">WebSockets</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-name" data-en="AI & Machine Learning" data-de="KI & Maschinelles Lernen">AI & Machine Learning</div>
+          <div class="skill-tags">
+            <span class="tag ai">LLM Integration</span><span class="tag ai">RAG</span><span class="tag ai">LangChain</span>
+            <span class="tag ai">Prompt Engineering</span><span class="tag ai">NLP</span><span class="tag ai">TensorFlow</span>
+            <span class="tag ai">Scikit-learn</span><span class="tag ai">TTS / STT</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-name" data-en="DevOps & Testing" data-de="DevOps & Testing">DevOps & Testing</div>
+          <div class="skill-tags">
+            <span class="tag">Git / GitHub</span><span class="tag">CI/CD Pipelines</span><span class="tag">Docker</span>
+            <span class="tag">Vercel</span><span class="tag">Render</span><span class="tag">Jest</span>
+            <span class="tag">Unit Testing</span><span class="tag">Agile / Scrum</span><span class="tag">Code Review</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="sb-section">
+        <div class="sb-head" data-en="Education" data-de="Ausbildung">Education</div>
+
+        <div class="edu-item">
+          <div class="edu-degree" data-en="AI & Machine Learning Engineer" data-de="KI & Machine Learning Engineer">AI & Machine Learning Engineer</div>
+          <div class="edu-school">Ironhack · Berlin, Germany</div>
+          <div class="edu-date">Jun – Sep 2025</div>
+          <div class="edu-note" data-en="Deep learning, NLP, MLOps, model deployment" data-de="Deep Learning, NLP, MLOps, Modell-Deployment">Deep learning, NLP, MLOps, model deployment</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree" data-en="Full-Stack Web Development" data-de="Full-Stack Webentwicklung">Full-Stack Web Development</div>
+          <div class="edu-school">DCI Digital Career Institute · Hamburg</div>
+          <div class="edu-date">Okt 2020 – Dez 2021</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree" data-en="BSc Electronics Engineering" data-de="B.Sc. Elektrotechnik">BSc Electronics Engineering</div>
+          <div class="edu-school">University of Mosul · Iraq</div>
+          <div class="edu-date">Sep 2001 – Okt 2005</div>
+          <div class="edu-note" data-en="Microcontrollers, signal processing, embedded systems" data-de="Mikrocontroller, Signalverarbeitung, eingebettete Systeme">Microcontrollers, signal processing, embedded systems</div>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="sb-section">
+        <div class="sb-head" data-en="Languages" data-de="Sprachkenntnisse">Languages</div>
+
+        <div class="lang-item">
+          <span class="lang-name" data-en="German" data-de="Deutsch">German</span>
+          <div class="lang-bar-wrap">
+            <div class="lang-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot empty"></div></div>
+            <span class="lang-level">B2</span>
+          </div>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name" data-en="English" data-de="Englisch">English</span>
+          <div class="lang-bar-wrap">
+            <div class="lang-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div>
+            <span class="lang-level">C1</span>
+          </div>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name" data-en="Arabic" data-de="Arabisch">Arabic</span>
+          <div class="lang-bar-wrap">
+            <div class="lang-dots"><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div></div>
+            <span class="lang-level" data-en="Native" data-de="Muttersprache">Native</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="sb-section">
+        <div class="sb-head" data-en="Availability" data-de="Verfügbarkeit">Availability</div>
+        <div class="avail-item"><div class="avail-dot"></div><span data-en="Available immediately" data-de="Ab sofort verfügbar">Available immediately</span></div>
+        <div class="avail-item"><div class="avail-dot"></div><span data-en="EU work authorisation — no sponsorship required" data-de="EU-Arbeitserlaubnis — keine Visa-Unterstützung nötig">EU work authorisation — no sponsorship required</span></div>
+        <div class="avail-item"><div class="avail-dot"></div><span data-en="Open to remote, hybrid & on-site (Hannover / Germany)" data-de="Offen für Remote, Hybrid & Vor-Ort (Hannover / Deutschland)">Open to remote, hybrid & on-site (Hannover / Germany)</span></div>
+      </div>
+
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main">
+
+      <!-- Summary -->
+      <section class="section">
+        <div class="section-head" data-en="Professional Summary" data-de="Berufliches Profil">Professional Summary</div>
+
+        <p class="summary-text" data-en='Full-Stack Software Engineer with <strong>5+ years</strong> of production experience building React/Node.js applications and AI-integrated systems across health-tech and AI startups. Delivered measurable impact across every role: cut frontend bug rate by <strong>40%</strong>, reduced AI processing time by <strong>60%</strong>, and improved dashboard rendering performance by <strong>25%</strong>. Hands-on across the full development lifecycle — architecture, REST API design, JWT authentication, unit testing, CI/CD, and deployment. Electronics engineering background (SCADA, embedded systems) provides systems-level reliability thinking most web engineers lack. Trilingual, EU-authorised, available immediately.'
+                                data-de='Full-Stack Softwareentwickler mit <strong>5+ Jahren</strong> Produktionserfahrung in der Entwicklung von React/Node.js-Anwendungen und KI-integrierten Systemen in Health-Tech- und KI-Startups. Messbare Ergebnisse in jeder Position: Frontend-Fehlerrate um <strong>40 %</strong> gesenkt, KI-Verarbeitungszeit um <strong>60 %</strong> reduziert und Dashboard-Renderleistung um <strong>25 %</strong> verbessert. Praxisorientiert über den gesamten Entwicklungslebenszyklus — Architektur, REST-API-Design, JWT-Authentifizierung, Unit-Tests, CI/CD und Deployment. Hintergrund in der Elektrotechnik (SCADA, eingebettete Systeme) bietet systemisches Denken, das die meisten Webentwickler nicht besitzen. Dreisprachig, EU-Arbeitserlaubnis, sofort verfügbar.'>
+          Full-Stack Software Engineer with <strong>5+ years</strong> of production experience building React/Node.js applications and AI-integrated systems across health-tech and AI startups. Delivered measurable impact across every role: cut frontend bug rate by <strong>40%</strong>, reduced AI processing time by <strong>60%</strong>, and improved dashboard rendering performance by <strong>25%</strong>. Hands-on across the full development lifecycle — architecture, REST API design, JWT authentication, unit testing, CI/CD, and deployment. Electronics engineering background (SCADA, embedded systems) provides systems-level reliability thinking most web engineers lack. Trilingual, EU-authorised, available immediately.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num">50%</div>
+            <div class="stat-label" data-en="Bug rate reduction (Medsolv)" data-de="Fehlerrate reduziert (Medsolv)">Bug rate reduction (Medsolv)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">60%</div>
+            <div class="stat-label" data-en="AI processing time cut" data-de="KI-Verarbeitungszeit reduziert">AI processing time cut</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">45%</div>
+            <div class="stat-label" data-en="Dashboard perf gain" data-de="Dashboard-Performance gesteigert">Dashboard perf gain</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">&lt;2s</div>
+            <div class="stat-label" data-en="API response achieved" data-de="API-Antwortzeit erreicht">API response achieved</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="section">
+        <div class="section-head" data-en="Work Experience" data-de="Berufserfahrung">Work Experience</div>
+
+        <!-- lovely.com.de -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title" data-en="Full-Stack Software Engineer" data-de="Full-Stack Softwareentwickler">Full-Stack Software Engineer</div>
+            <div class="job-date" data-en="Jan 2025 – Present" data-de="Jan 2025 – Heute">Jan 2025 – Present</div>
+          </div>
+          <div class="job-meta">
+            <strong>lovely.com.de</strong> · <span data-en="Early-stage startup · Hannover, Germany" data-de="Frühphasiges Startup · Hannover, Deutschland">Early-stage startup · Hannover, Germany</span>
+            <span class="current-badge" data-en="Current" data-de="Aktuell">Current</span>
+          </div>
+          <ul class="bullets">
+            <li data-en='Architected and built the company's full web platform from scratch using <span class="metric">Next.js, React, Node.js, and MongoDB</span>, owning frontend architecture, REST API design, and CI/CD pipeline setup end-to-end.'
+                data-de='Gesamte Webplattform des Unternehmens von Grund auf mit <span class="metric">Next.js, React, Node.js und MongoDB</span> entwickelt — verantwortlich für Frontend-Architektur, REST-API-Design und CI/CD-Pipeline-Aufbau.'>
+              Architected and built the company's full web platform from scratch using <span class="metric">Next.js, React, Node.js, and MongoDB</span>, owning frontend architecture, REST API design, and CI/CD pipeline setup end-to-end.
+            </li>
+            <li data-en='Implemented <span class="metric">JWT-based authentication</span>, role-based access control, and secure session management — establishing the full security layer for a product handling user data.'
+                data-de='<span class="metric">JWT-basierte Authentifizierung</span>, rollenbasierte Zugriffskontrolle und sicheres Session-Management implementiert — vollständige Sicherheitsschicht für ein nutzerdatenverarbeitendes Produkt aufgebaut.'>
+              Implemented <span class="metric">JWT-based authentication</span>, role-based access control, and secure session management — establishing the full security layer for a product handling user data.
+            </li>
+            <li data-en='Delivered responsive, accessible UI with TailwindCSS achieving <span class="metric">sub-2s page load times</span> and full cross-browser, cross-device compatibility from day one.'
+                data-de='Responsives, barrierefreies UI mit TailwindCSS entwickelt — <span class="metric">Ladezeit unter 2 Sekunden</span> sowie vollständige Browser- und Gerätekompatibilität von Beginn an sichergestellt.'>
+              Delivered responsive, accessible UI with TailwindCSS achieving <span class="metric">sub-2s page load times</span> and full cross-browser, cross-device compatibility from day one.
+            </li>
+            <li data-en='Set up automated Vercel CI/CD workflow enabling zero-downtime releases; managed Git branching strategy and code review process as the sole engineer on the founding team.'
+                data-de='Automatisierten Vercel-CI/CD-Workflow eingerichtet für Zero-Downtime-Releases; Git-Branching-Strategie und Code-Review-Prozess als alleiniger Entwickler im Gründerteam verantwortet.'>
+              Set up automated Vercel CI/CD workflow enabling zero-downtime releases; managed Git branching strategy and code review process as the sole engineer on the founding team.
+            </li>
+            <li data-en='Integrated third-party APIs and webhooks, cutting manual operational workflows by an estimated <span class="metric">3+ hours per week</span> for the founding team.'
+                data-de='Drittanbieter-APIs und Webhooks integriert — manuelle Betriebsabläufe des Gründerteams um geschätzte <span class="metric">3+ Stunden pro Woche</span> reduziert.'>
+              Integrated third-party APIs and webhooks, cutting manual operational workflows by an estimated <span class="metric">3+ hours per week</span> for the founding team.
+            </li>
+          </ul>
+        </div>
+
+        <!-- ClipoFrameAI -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title" data-en="AI Engineer / Full-Stack Software Engineer" data-de="KI-Ingenieur / Full-Stack Softwareentwickler">AI Engineer / Full-Stack Software Engineer</div>
+            <div class="job-date">Jun 2024 – Dez 2024</div>
+          </div>
+          <div class="job-meta"><strong>ClipoFrameAI</strong> · <span data-en="AI startup, 5-person team · Hannover, Germany" data-de="KI-Startup, 5-köpfiges Team · Hannover, Deutschland">AI startup, 5-person team · Hannover, Germany</span></div>
+          <ul class="bullets">
+            <li data-en='Designed and shipped an end-to-end AI video summarization pipeline <span class="metric">(Python · FastAPI · LangChain · LLM agents)</span> that reduced manual video editing time by <span class="metric">~60%</span> and delivered multilingual output across 3 target markets.'
+                data-de='End-to-End-KI-Videozusammenfassungs-Pipeline <span class="metric">(Python · FastAPI · LangChain · LLM-Agenten)</span> entwickelt und ausgeliefert — manuelle Videobearbeitungszeit um <span class="metric">~60 %</span> reduziert, mehrsprachige Ausgabe für 3 Zielmärkte ermöglicht.'>
+              Designed and shipped an end-to-end AI video summarization pipeline <span class="metric">(Python · FastAPI · LangChain · LLM agents)</span> that reduced manual video editing time by <span class="metric">~60%</span> and delivered multilingual output across 3 target markets.
+            </li>
+            <li data-en='Built RAG-based retrieval systems and NLP pipelines using LangChain and custom prompt engineering, enabling semantic search across <span class="metric">10,000+ document corpora</span>.'
+                data-de='RAG-basierte Retrievalsysteme und NLP-Pipelines mit LangChain und individuellem Prompt-Engineering entwickelt — semantische Suche über <span class="metric">10.000+ Dokumente</span> ermöglicht.'>
+              Built RAG-based retrieval systems and NLP pipelines using LangChain and custom prompt engineering, enabling semantic search across <span class="metric">10,000+ document corpora</span>.
+            </li>
+            <li data-en='Integrated TTS/STT systems (Gemini AI, ElevenLabs) and multimodal AI models into a production Next.js frontend, achieving <span class="metric">average API response under 2 seconds</span>.'
+                data-de='TTS/STT-Systeme (Gemini AI, ElevenLabs) und multimodale KI-Modelle in ein produktives Next.js-Frontend integriert — <span class="metric">durchschnittliche API-Antwortzeit unter 2 Sekunden</span> erreicht.'>
+              Integrated TTS/STT systems (Gemini AI, ElevenLabs) and multimodal AI models into a production Next.js frontend, achieving <span class="metric">average API response under 2 seconds</span>.
+            </li>
+            <li data-en='Architected Express.js + MongoDB backend with FastAPI AI inference services, applying separation-of-concerns and horizontal scalability to handle production load reliably.'
+                data-de='Express.js- und MongoDB-Backend mit FastAPI-KI-Inferenzdiensten konzipiert — Trennung der Zuständigkeiten und horizontale Skalierbarkeit für zuverlässige Produktionslast umgesetzt.'>
+              Architected Express.js + MongoDB backend with FastAPI AI inference services, applying separation-of-concerns and horizontal scalability to handle production load reliably.
+            </li>
+            <li data-en='Owned full dev lifecycle — planning, implementation, unit testing, and deployment — using Git branching and Agile/Scrum practices in a fast-moving small team.'
+                data-de='Gesamten Entwicklungslebenszyklus — Planung, Implementierung, Unit-Tests und Deployment — mit Git-Branching und Agile/Scrum in einem schnell arbeitenden Kleinteam verantwortet.'>
+              Owned full dev lifecycle — planning, implementation, unit testing, and deployment — using Git branching and Agile/Scrum practices in a fast-moving small team.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Medsolv -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title" data-en="Junior Frontend Developer" data-de="Junior Frontend-Entwickler">Junior Frontend Developer</div>
+            <div class="job-date" data-en="Jan 2022 – Apr 2024" data-de="Jan 2022 – Apr 2024">Jan 2022 – Apr 2024</div>
+          </div>
+          <div class="job-meta"><strong>Medsolv GmbH</strong> · <span data-en="Health-tech SaaS, clinical dashboard product · Hannover, Germany" data-de="Health-Tech SaaS, klinisches Dashboard-Produkt · Hannover, Deutschland">Health-tech SaaS, clinical dashboard product · Hannover, Germany</span></div>
+          <ul class="bullets">
+            <li data-en='Reduced frontend bug rate by <span class="metric">40%</span> by expanding TypeScript type coverage, introducing structured error boundaries, and formalising Redux state management across a React codebase used by medical professionals daily.'
+                data-de='Frontend-Fehlerrate um <span class="metric">40 %</span> gesenkt durch Ausbau der TypeScript-Typenabdeckung, Einführung strukturierter Error Boundaries und Formalisierung des Redux-State-Managements in einer täglich von Medizinern genutzten React-Codebasis.'>
+              Reduced frontend bug rate by <span class="metric">40%</span> by expanding TypeScript type coverage, introducing structured error boundaries, and formalising Redux state management across a React codebase used by medical professionals daily.
+            </li>
+            <li data-en='Improved core dashboard rendering performance by <span class="metric">25%</span> by refactoring API integration logic and eliminating redundant re-renders in high-traffic clinical views.'
+                data-de='Kernleistung des Dashboards um <span class="metric">25 %</span> verbessert durch Refaktorierung der API-Integrationslogik und Beseitigung redundanter Re-Renders in stark frequentierten klinischen Ansichten.'>
+              Improved core dashboard rendering performance by <span class="metric">25%</span> by refactoring API integration logic and eliminating redundant re-renders in high-traffic clinical views.
+            </li>
+            <li data-en='Redesigned 6 core REST API schemas in collaboration with backend engineers, cutting integration-related incidents in half and unblocking a two-sprint backlog of pending features.'
+                data-de='6 zentrale REST-API-Schemata in Zusammenarbeit mit Backend-Entwicklern neu gestaltet — integrationsbezogene Vorfälle halbiert und einen zwei-Sprint-Rückstand offener Features aufgelöst.'>
+              Redesigned 6 core REST API schemas in collaboration with backend engineers, cutting integration-related incidents in half and unblocking a two-sprint backlog of pending features.
+            </li>
+            <li data-en='Built accessible, mobile-compatible UI components with React, TypeScript, and TailwindCSS; implemented SEO optimisations and CI/CD improvements contributing to sub-2s page loads.'
+                data-de='Barrierefreie, mobilkompatible UI-Komponenten mit React, TypeScript und TailwindCSS entwickelt; SEO-Optimierungen und CI/CD-Verbesserungen umgesetzt — Ladezeiten unter 2 Sekunden erreicht.'>
+              Built accessible, mobile-compatible UI components with React, TypeScript, and TailwindCSS; implemented SEO optimisations and CI/CD improvements contributing to sub-2s page loads.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Prokot -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title" data-en="Electronics Technician" data-de="Elektroniktechniker">Electronics Technician</div>
+            <div class="job-date">Jan 2017 – Dez 2018</div>
+          </div>
+          <div class="job-meta"><strong>Prokot GmbH</strong> · <span data-en="Engineering services · Hannover, Germany" data-de="Ingenieurdienstleistungen · Hannover, Deutschland">Engineering services · Hannover, Germany</span></div>
+          <ul class="bullets">
+            <li data-en="Installed and validated signal cable infrastructure and control systems for Hannover's urban metro network, ensuring zero-fault signal stability across critical transit lines."
+                data-de="Signalkabelinfrastruktur und Steuerungssysteme für das Hannoverschen U-Bahn-Netz installiert und validiert — fehlerfreie Signalstabilität auf kritischen Strecken sichergestellt.">
+              Installed and validated signal cable infrastructure and control systems for Hannover's urban metro network, ensuring zero-fault signal stability across critical transit lines.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Ministry -->
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title" data-en="Electronics & SCADA Engineer" data-de="Elektronik- & SCADA-Ingenieur">Electronics & SCADA Engineer</div>
+            <div class="job-date">Mai 2006 – Jun 2014</div>
+          </div>
+          <div class="job-meta"><strong>Ministry of Electricity</strong> · <span data-en="National infrastructure · Iraq" data-de="Nationale Infrastruktur · Irak">National infrastructure · Iraq</span></div>
+          <ul class="bullets">
+            <li data-en='Optimised SCADA and Motorola wireless systems across national power stations, increasing communication reliability by <span class="metric">30%</span>; led cross-functional teams across critical infrastructure projects.'
+                data-de='SCADA- und Motorola-Funksysteme an nationalen Kraftwerken optimiert — Kommunikationszuverlässigkeit um <span class="metric">30 %</span> gesteigert; fachübergreifende Teams in kritischen Infrastrukturprojekten geleitet.'>
+              Optimised SCADA and Motorola wireless systems across national power stations, increasing communication reliability by <span class="metric">30%</span>; led cross-functional teams across critical infrastructure projects.
+            </li>
+          </ul>
+          <div class="gap-note" data-en="Career transition 2014–2020: relocation to Germany, German language acquisition (B2), retraining in web development."
+                                data-de="Karrierewechsel 2014–2020: Umzug nach Deutschland, Deutscherwerb (B2), Umschulung zur Webentwicklung.">
+            Career transition 2014–2020: relocation to Germany, German language acquisition (B2), retraining in web development.
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="section">
+        <div class="section-head" data-en="Key Projects" data-de="Wichtige Projekte">Key Projects</div>
+        <div class="projects-grid">
+
+          <div class="project">
+            <div class="project-top">
+              <div class="project-name" data-en="ClipoFrameAI — AI Video Summarization" data-de="ClipoFrameAI — KI-Videozusammenfassung">ClipoFrameAI — AI Video Summarization</div>
+              <a class="project-link" href="https://github.com/saif-obaidi">GitHub ↗</a>
+            </div>
+            <div class="project-stack">Next.js · FastAPI · LangChain · LLM Agents · MongoDB</div>
+            <div class="project-desc" data-en='Automated video ingestion → transcription → LLM summarization → multilingual delivery. <span class="project-highlight">Cut processing time 60%.</span> Deployed on Vercel + Render with full CI/CD.'
+                                      data-de='Automatisierung: Video-Ingest → Transkription → LLM-Zusammenfassung → mehrsprachige Ausgabe. <span class="project-highlight">Verarbeitungszeit um 60 % reduziert.</span> Deployment auf Vercel + Render mit vollständigem CI/CD.'>
+              Automated video ingestion → transcription → LLM summarization → multilingual delivery. <span class="project-highlight">Cut processing time 60%.</span> Deployed on Vercel + Render with full CI/CD.
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="project-top">
+              <div class="project-name" data-en="DeepSeek Clone — Semantic Search Engine" data-de="DeepSeek Clone — Semantische Suchmaschine">DeepSeek Clone — Semantic Search Engine</div>
+              <a class="project-link" href="https://github.com/saif-obaidi">GitHub ↗</a>
+            </div>
+            <div class="project-stack">Next.js · RAG · Vector DB · LLM · Custom Embedding Pipeline</div>
+            <div class="project-desc" data-en='Custom embedding pipeline and relevance ranking for vector-based retrieval. <span class="project-highlight">Accurate search across 10k+ documents.</span>'
+                                      data-de='Individuelle Embedding-Pipeline und Relevanz-Ranking für vektorbasiertes Retrieval. <span class="project-highlight">Präzise Suche über 10.000+ Dokumente.</span>'>
+              Custom embedding pipeline and relevance ranking for vector-based retrieval. <span class="project-highlight">Accurate search across 10k+ documents.</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="project-top">
+              <div class="project-name" data-en="Satriq — Real-Time Voice Assistant" data-de="Satriq — Echtzeit-Sprachassistent">Satriq — Real-Time Voice Assistant</div>
+              <a class="project-link" href="https://github.com/saif-obaidi">GitHub ↗</a>
+            </div>
+            <div class="project-stack">React · Gemini AI · ElevenLabs · Convex · WebSockets · TTS/STT</div>
+            <div class="project-desc" data-en='Real-time voice commands with TTS/STT, automated triggers, and live state sync via Convex. <span class="project-highlight">Sub-500ms voice response latency in production.</span>'
+                                      data-de='Echtzeit-Sprachbefehle mit TTS/STT, automatisierten Triggern und Live-Zustandssync via Convex. <span class="project-highlight">Unter 500 ms Sprachlatenz in Produktion.</span>'>
+              Real-time voice commands with TTS/STT, automated triggers, and live state sync via Convex. <span class="project-highlight">Sub-500ms voice response latency in production.</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="project-top">
+              <div class="project-name" data-en="IMDB Analytics Dashboard" data-de="IMDB-Analyse-Dashboard">IMDB Analytics Dashboard</div>
+              <a class="project-link" href="https://github.com/saif-obaidi">GitHub ↗</a>
+            </div>
+            <div class="project-stack">MERN Stack · FastAPI · Python · Scikit-learn · PostgreSQL</div>
+            <div class="project-desc" data-en='Sentiment analysis on 50k+ reviews with interactive dashboards. <span class="project-highlight">87% ML model accuracy.</span> FastAPI serving ML inference to React frontend.'
+                                      data-de='Stimmungsanalyse von 50.000+ Bewertungen mit interaktiven Dashboards. <span class="project-highlight">87 % ML-Modellgenauigkeit.</span> FastAPI für ML-Inferenz an React-Frontend.'>
+              Sentiment analysis on 50k+ reviews with interactive dashboards. <span class="project-highlight">87% ML model accuracy.</span> FastAPI serving ML inference to React frontend.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+var currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+  document.documentElement.lang = lang;
+
+  var els = document.querySelectorAll('[data-en][data-de]');
+  els.forEach(function(el) {
+    var content = el.getAttribute('data-' + lang);
+    if (content !== null) {
+      el.innerHTML = content;
+    }
+  });
+}
+
+// Read URL param on load: ?lang=de
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var langParam = params.get('lang');
+  if (langParam === 'de') {
+    setLang('de');
+  }
+})();
+</script>
+</body>
+</html>
